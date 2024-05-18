@@ -1,0 +1,58 @@
+/*
+
+TMComms, a tribune for Trackmania²
+
+Written by Safariminer
+
+Helped by development of https://github.com/Safariminer/3bune
+
+*/
+
+main(){
+    declare CHttpRequest[] requests for Page; // Get request list from maniaapp
+    declare Text manialinkBase for Page; // Get ManiaAppBaseUrl from maniaapp
+
+    /* Aliases, to the best of my understanding, are pointers to an element in an array/list */
+    declare sendBtn <=> (Page.GetFirstChild("sendBtn") as CMlLabel); // get the send button
+    declare msgEntry <=> (Page.GetFirstChild("msgEntry") as CMlEntry); // get message entry box
+    declare msgLog <=> (Page.GetFirstChild("msgLog") as CMlLabel); // get message log label
+
+    log("Connected to TMComms"); // log for good measure
+    declare Integer start;
+
+    while(True){
+        yield;
+        start = Now;
+        wait(Now > start+3000 || PendingEvents.count > 1); // wait for 3-ish seconds or for when new event
+        requests.add(Http.CreateGet(manialinkBase ^ "messagehistory.txt")); // request the message history
+
+        foreach(Event in PendingEvents){ // for each event that happened
+            if(Event.Type == CMlEvent::Type::MouseClick){ // if that event was a mouse click...
+                if(Event.ControlId == "sendBtn"){         // on the send button...
+                    log("Message to be posted: " ^ msgEntry.Value); // then log the message for good measure
+                    if(msgEntry.Value == ""){                       // if it's empty, ignore it
+                        log("Message is empty... :(");              // with a log
+                    }
+                    else{                                           // otherwise...
+                        // celebrate by get-requesting post.php with the username and message :thumbsup:
+                        requests.add(Http.CreateGet(manialinkBase ^ "post.php?username=" ^ LocalUser.Login ^ "&message=" ^ msgEntry.Value));
+                        msgEntry.Value = ""; // and clear the msgentry
+                    }
+                }
+            }
+        }
+        foreach(Request in requests){ // for each request that has happened
+            if(Request.IsCompleted){  // if the request has completed
+                if(Request.StatusCode == 200){ // and its status is 200
+                    msgLog.Value = Request.Result; // then display its value by putting it in the msglog
+                    requests.remove(Request); // and then you're done with the request.
+                    // you can actually just remove a value in an array by removing its value
+                    // without actually knowing the key. which is really nice. and I appreciate it.
+                    // but I do wonder what happens when you have two identical values in a list
+                    // and you try to remove it. hmm...
+                }
+            }
+        }
+        
+    }
+}

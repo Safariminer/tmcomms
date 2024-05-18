@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Yantramanav:wght@100;300;400;500;700;900&display=swap');
+
+body{
+    font-family: "Yantramanav", sans-serif;
+    color:aliceblue;
+    background-color: #0b0e20;
+    text-align: center;
+}
+
+a{
+    color:aquamarine;
+}
+a:hover{
+    background-color: yellow;
+    color:black;
+}

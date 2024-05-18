@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<manialink version="3">
+    <quad pos="-160 90" z-index="-2" size="320 180" bgcolor="222F"/>
+    <label pos="-150 75" z-index="-1" size="300 145" text="Waiting for a request to be done..." id="msgLog" autonewline="1"/>
+    <entry pos="-155 -80" z-index="0" size="285 5" id="msgEntry" style="StyleTextScriptEditor"/>
+    <label pos="130 -79" z-index="0" size="16 5" text="Send" scriptevents="1" style="CardButtonMediumS" id="sendBtn"/>
+
+    <script>
+    <!--
+        

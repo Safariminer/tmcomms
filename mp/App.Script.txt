@@ -1,0 +1,31 @@
+/*
+
+TMComms, a tribune for Trackmania²
+
+Written by Safariminer
+
+Helped by development of https://github.com/Safariminer/3bune
+
+*/
+
+// tell the game we need to be in a maniaapp context to function or else
+// bugslide in the shadowrealm.
+#RequireContext CManiaApp
+
+main(){
+    declare CUILayer layer; // new layer
+    layer = UILayerCreate(); // new layer?
+    layer.IsVisible = True; // hell yeah that's a new layer if I've ever seen one
+    layer.ManialinkPage = ManiaAppBaseUrl ^ "app.php"; // we kinda need it to link to the rest of our code
+
+                                                         // requests list for our app. we don't need it here, it's just
+    declare CHttpRequest[] requests for layer.LocalPage; // I thought I could use both while(True)s for multithreading
+                                                         // kinda.
+                                                         
+    declare Text manialinkBase for layer.LocalPage; // get ManiaAppBaseUrl to our other manialink <3
+    manialinkBase = ManiaAppBaseUrl;
+    
+    while(True){
+        yield;
+    }
+}
